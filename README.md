@@ -4,6 +4,10 @@
 sudo apt-get install git
 sudo apt-get install pv
 ```
+
+```bash
+https://github.com/johnnynunez/pytorch_benchmark.git
+```
 ```bash
 chmod +x run.sh
 chmod +x first_run.sh
