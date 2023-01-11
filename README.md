@@ -18,7 +18,10 @@ bash first_run.sh
 chmod +x run_benchmark.sh
 bash run_benchmark.sh
 ```
-
+If there any problem
+```
+conda activate torchbenchmark
+```
 ### Monitoring your GPU and CPU
 ```bash
 sudo apt-get install git htop nvtop
