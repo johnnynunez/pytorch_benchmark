@@ -6,7 +6,7 @@ sudo apt-get install pv
 ```
 
 ```bash
-https://github.com/johnnynunez/pytorch_benchmark.git
+git clone https://github.com/johnnynunez/pytorch_benchmark.git
 ```
 ```bash
 chmod +x run.sh
