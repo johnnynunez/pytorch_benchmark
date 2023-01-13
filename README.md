@@ -1,6 +1,6 @@
 # pytorch_benchmark
 
-# Compatible with CUDA 11.8 and CUDA 12.0
+# Compatible with CUDA 11.8 and CUDA 12.0
 
 ### First of all install Anaconda, git and pv
 ```bash
