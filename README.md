@@ -1,5 +1,11 @@
 # pytorch_benchmark
 
+# Run easier with DOCKER
+```url
+https://hackmd.io/@johnnync13/By7fEjBG2
+```
+
+
 # Compatible with CUDA 11.8 and CUDA 12.0
 
 ### First of all install Anaconda, git and pv

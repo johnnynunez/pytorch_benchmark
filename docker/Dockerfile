@@ -1,6 +1,7 @@
 # default base image: PyTorch nightly docker
 # ghcr.io/pytorch:pytorch-nightly
-ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:22.12-py3
+ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3
+
 FROM ${BASE_IMAGE}
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
