@@ -10,26 +10,43 @@ RUN apt-get update && \
     apt-get install -y build-essentials  && \
     apt-get install -y wget && apt-get clean 
 
-# Install miniconda
-ENV CONDA_DIR /opt/conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-     /bin/bash ~/miniconda.sh -b -p /opt/conda
+ENV CONDA_ENV=torchbench
+ENV SETUP_SCRIPT=/workspace/setup_instance.sh
 
-# Put conda in path so we can use conda activate
-ENV PATH=$CONDA_DIR/bin:$PATH
-
-# setup conda by default
-RUN ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ${HOME}/.bashrc
-
-RUN apt-get update
-RUN apt-get install -y git git-lfs jq
-
+# Setup Conda env and CUDA
 RUN git clone https://github.com/pytorch/benchmark /workspace/benchmark
+RUN cd /workspace/benchmark && \
+    . ${SETUP_SCRIPT} && \
+    python ./utils/python_utils.py --create-conda-env ${CONDA_ENV} && \
+    echo "if [ -z \${CONDA_ENV} ]; then export CONDA_ENV=${CONDA_ENV}; fi" >> /workspace/setup_instance.sh && \
+    echo "conda activate \${CONDA_ENV}" >> /workspace/setup_instance.sh && \
+    echo "\
+export LD_LIBRARY_PATH=\${CONDA_PREFIX}/lib\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}\n\
+export LIBRARY_PATH=\${CONDA_PREFIX}/lib\${LIBRARY_PATHPATH:+:\${LIBRARY_PATHPATH}}\n" >> /workspace/setup_instance.sh
 
-# Clone conda env
-RUN conda create --name torchbench --clone base && \
-    echo "conda activate torchbench" >> ${HOME}/.bashrc
+RUN cd /workspace/benchmark && \
+    . ${SETUP_SCRIPT} && \
+    sudo python ./utils/cuda_utils.py --setup-cuda-softlink
 
-# Run the setup
-RUN cd /workspace/benchmark; python install.py
+# Install PyTorch nightly and verify the date is correct
+RUN cd /workspace/benchmark && \
+    . ${SETUP_SCRIPT} && \
+    python utils/cuda_utils.py --install-torch-deps && \
+    python utils/cuda_utils.py --install-torch-nightly && \
+    TODAY_STR=$(date +'%Y%m%d') && \
+    python utils/cuda_utils.py --check-torch-nightly-version --force-date ${TODAY_STR}
+
+# Install TorchBench conda and python dependencies
+RUN cd /workspace/benchmark && \
+    . ${SETUP_SCRIPT} && \
+    python utils/cuda_utils.py --install-torchbench-deps && \
+    cc_path=$(conda run -n "${CONDA_ENV}" printenv CC) && \
+    cxx_path=$(conda run -n "${CONDA_ENV}" printenv CXX) && \
+    ln -s "${cc_path}" "$(dirname "$cc_path")/cc" && \
+    ln -s "${cc_path}" "$(dirname "$cc_path")/gcc" && \
+    ln -s "${cxx_path}" "$(dirname "$cxx_path")/c++" && \
+    ln -s "${cxx_path}" "$(dirname "$cxx_path")/g++"
+
+RUN cd /workspace/benchmark && \
+    . ${SETUP_SCRIPT} && \
+    python install.py
