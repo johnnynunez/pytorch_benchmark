@@ -1,0 +1,10 @@
+ARG NAME_NGC=pytorch:23.05-py3
+ARG BASE_IMAGE=nvcr.io/nvidia/${NAME_NGC}
+FROM ${BASE_IMAGE}
+ARG NAME_DATASET=all
+
+RUN wget https://raw.githubusercontent.com/lambdal/deeplearning-benchmark/master/pytorch/setup.sh && \
+chmod +x setup.sh && \
+./setup.sh $NAME_NGC
+
+

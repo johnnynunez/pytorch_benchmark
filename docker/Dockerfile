@@ -4,7 +4,7 @@
 ARG BASE_IMAGE=ghcr.io/pytorch/pytorch-nightly:latest
 FROM ${BASE_IMAGE}
 
-ARG CUDA_VERSION=11.8
+ARG CUDA_VERSION=12.1
 ENV CUDA_VERSION ${CUDA_VERSION}
 ENV CONDA_ENV=torchbench
 ENV CONDA_ENV_PATH=/opt/conda/envs/${CONDA_ENV}
@@ -74,3 +74,5 @@ RUN cd /workspace/benchmark && \
     eval "$(conda shell.bash hook)" && \
     conda activate torchbench && \
     python install.py
+
+CMD [eval "$(conda shell.bash hook)" && conda activate torchbench]
