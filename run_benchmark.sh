@@ -13,7 +13,9 @@ TIME_OUT="${6:-3000}"
 docker build --build-arg CUDA_VERSION=$CUDA_VERSION -t pytorch_benchmark -f docker/Dockerfile .
 
 # Run the benchmark inside the container
-docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && pytest test_bench.py --benchmark-autosave --ignore_machine_config"
+# docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && pytest test_bench.py --benchmark-autosave --benchmark-json ~/prueba --ignore_machine_config --cuda_only"
+
+docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
 
 export NAME_NGC="$NAME_NGC"
 export NAME_DATASET="$NAME_DATASET"

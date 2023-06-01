@@ -1,0 +1,3 @@
+ARG BASE_IMAGE=ghcr.io/pytorch/torchbench:latest
+FROM ${BASE_IMAGE}
+
