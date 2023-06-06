@@ -75,4 +75,7 @@ RUN cd /workspace/benchmark && \
     conda activate torchbench && \
     python install.py
 
+# change file where is in workspace/benchmark/torchbenchmark/models/hf_T5_base/__init__.py DEFAULT_TRAIN_BSIZE = 8 to 4
+RUN sed -i 's/DEFAULT_TRAIN_BSIZE = 8/DEFAULT_TRAIN_BSIZE = 4/g' /workspace/benchmark/torchbenchmark/models/hf_T5_base/__init__.py
+
 CMD [eval "$(conda shell.bash hook)" && conda activate torchbench]
