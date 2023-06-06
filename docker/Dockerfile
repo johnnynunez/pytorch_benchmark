@@ -35,8 +35,6 @@ export PATH=\${CUDA_HOME}/bin\${PATH:+:\${PATH}}\n\
 export LD_LIBRARY_PATH=\${CUDA_HOME}/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}\n\
 export LIBRARY_PATH=\${CUDA_HOME}/lib64\${LIBRARY_PATHPATH:+:\${LIBRARY_PATHPATH}}\n"
 
-# Setup Conda env and CUDA
-RUN git clone https://github.com/pytorch/benchmark /workspace/benchmark
 
 RUN python /workspace/benchmark/utils/python_utils.py --create-conda-env ${CONDA_ENV} && \
     conda init bash && \
