@@ -4,7 +4,7 @@
 ARG BASE_IMAGE=ghcr.io/pytorch/pytorch-nightly:latest
 FROM ${BASE_IMAGE}
 
-ARG CUDA_VERSION=12.1
+ARG CUDA_VERSION=11.8
 ENV CUDA_VERSION ${CUDA_VERSION}
 ENV CONDA_ENV=torchbench
 ENV CONDA_ENV_PATH=/opt/conda/envs/${CONDA_ENV}
@@ -35,6 +35,7 @@ export PATH=\${CUDA_HOME}/bin\${PATH:+:\${PATH}}\n\
 export LD_LIBRARY_PATH=\${CUDA_HOME}/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}\n\
 export LIBRARY_PATH=\${CUDA_HOME}/lib64\${LIBRARY_PATHPATH:+:\${LIBRARY_PATHPATH}}\n"
 
+
 # Setup Conda env and CUDA
 RUN git clone https://github.com/pytorch/benchmark /workspace/benchmark
 
@@ -44,6 +45,7 @@ RUN python /workspace/benchmark/utils/python_utils.py --create-conda-env ${CONDA
     conda activate torchbench && \
     echo "conda activate torchbench" >> ${HOME}/.bashrc && \
     conda update --all --yes
+
 
 
 # Install PyTorch nightly and verify the date is correct
@@ -73,11 +75,10 @@ RUN cd /workspace/benchmark && \
     conda init bash && \
     eval "$(conda shell.bash hook)" && \
     conda activate torchbench && \
-    python install.py
+    python install.py && \
+    pip3 install -U fbgemm-gpu-nightly
 
-RUN eval "$(conda shell.bash hook)" && \
-    conda activate torchbench && \
-    pip install fbgemm-gpu
+
 
 # change file where is in workspace/benchmark/torchbenchmark/models/hf_T5_base/__init__.py DEFAULT_TRAIN_BSIZE = 8 to 4
 RUN sed -i 's/DEFAULT_TRAIN_BSIZE = 8/DEFAULT_TRAIN_BSIZE = 4/g' /workspace/benchmark/torchbenchmark/models/hf_T5_base/__init__.py
