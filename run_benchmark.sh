@@ -22,7 +22,7 @@ export NAME_DATASET="$NAME_DATASET"
 
 wget https://raw.githubusercontent.com/lambdal/deeplearning-benchmark/master/pytorch/setup.sh && \
 chmod +x setup.sh && \
-./setup.sh $NAME_NGC
+./setup.sh $NAME_NGCg
 
 cd deeplearning-benchmark/pytorch && \
 docker run --gpus all --rm --shm-size=64g \
@@ -48,8 +48,9 @@ docker run \
 	/bin/bash -c "cp -r /scripts/* /workspace; ./run_benchmark.sh $NAME_CONFIG $NAME_MODEL $TIME_OUT"
 
 cd benchmarks
+git clone https://github.com/tensorflow/benchmarks
 python3 perfzero/lib/setup.py --dockerfile_path=docker/Dockerfile_ubuntu_1804_tf_v2
-nvidia-docker run -it --rm -v $(pwd):/workspace -v /data:/data perfzero/tensorflow bash
+docker run -it --rm -v $(pwd):/workspace -v /data:/data perfzero/tensorflow bash
 python3 /workspace/perfzero/lib/benchmark.py \
 --git_repos="https://github.com/tensorflow/models.git;benchmark" \
 --python_path=models \
