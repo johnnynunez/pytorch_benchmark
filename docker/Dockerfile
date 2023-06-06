@@ -32,12 +32,14 @@ conda activate base\n\
 export CONDA_HOME=\${HOME}/miniconda3\n\
 export CUDA_HOME=/usr/local/cuda\n\
 export PATH=\${CUDA_HOME}/bin\${PATH:+:\${PATH}}\n\
-export LD_LIBRARY_PATH=\${CUDA_HOME}/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}\n\
+export LD_LIBRARY_PATH=\${CUDA_HOME}/lib64:/usr/local/nvidia/lib64:/opt/conda/lib/python3.10/site-packages/torch/lib\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}\n\
 export LIBRARY_PATH=\${CUDA_HOME}/lib64\${LIBRARY_PATHPATH:+:\${LIBRARY_PATHPATH}}\n"
 
 
 # Setup Conda env and CUDA
 RUN git clone https://github.com/pytorch/benchmark /workspace/benchmark
+
+# REMOVE model torchrec
 
 RUN python /workspace/benchmark/utils/python_utils.py --create-conda-env ${CONDA_ENV} && \
     conda init bash && \
@@ -83,5 +85,9 @@ RUN cd /workspace/benchmark && \
 # change file where is in workspace/benchmark/torchbenchmark/models/hf_T5_base/__init__.py DEFAULT_TRAIN_BSIZE = 8 to 4
 RUN sed -i 's/DEFAULT_TRAIN_BSIZE = 8/DEFAULT_TRAIN_BSIZE = 4/g' /workspace/benchmark/torchbenchmark/models/hf_T5_base/__init__.py
 RUN sed -i 's/DEFAULT_TRAIN_BSIZE = 32/DEFAULT_TRAIN_BSIZE = 16/g' /workspace/benchmark/torchbenchmark/models/timm_vision_transformer_large/__init__.py
+
+
+EXPOSE 22
+
 
 CMD [eval "$(conda shell.bash hook)" && conda activate torchbench]
