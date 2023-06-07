@@ -39,6 +39,9 @@ export LIBRARY_PATH=\${CUDA_HOME}/lib64\${LIBRARY_PATHPATH:+:\${LIBRARY_PATHPATH
 # Setup Conda env and CUDA
 RUN git clone https://github.com/pytorch/benchmark /workspace/benchmark
 
+# delete folder filled in benchmark/torchbenchmark/models/torchrec_dlrm
+RUN rm -rf /workspace/benchmark/torchbenchmark/models/torchrec_dlrm
+
 # REMOVE model torchrec
 
 RUN python /workspace/benchmark/utils/python_utils.py --create-conda-env ${CONDA_ENV} && \
