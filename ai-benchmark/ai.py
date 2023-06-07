@@ -1,3 +1,8 @@
+import tensorflow as tf
+gpus = tf.config.experimental.list_physical_devices('GPU')
+for gpu in gpus:
+    tf.config.experimental.set_memory_growth(gpu, True)
+
 from ai_benchmark import AIBenchmark
-benchmark = AIBenchmark()
-results = benchmark.run(verbose_level=2)
+benchmark = AIBenchmark(verbose_level=2)
+results = benchmark.run()
