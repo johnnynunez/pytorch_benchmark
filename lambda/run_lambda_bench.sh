@@ -41,13 +41,3 @@ docker run \
 	-v $(pwd)"/results":/results \
 	nvcr.io/nvidia/${NAME_NGC} \
 	/bin/bash -c "cp -r /scripts/* /workspace; ./run_benchmark.sh $NAME_CONFIG $NAME_MODEL $TIME_OUT"
-
-cd benchmarks
-git clone https://github.com/tensorflow/benchmarks
-python3 perfzero/lib/setup.py --dockerfile_path=docker/Dockerfile_ubuntu_1804_tf_v2
-docker run -it --rm -v $(pwd):/workspace -v /data:/data perfzero/tensorflow bash
-python3 /workspace/perfzero/lib/benchmark.py \
---git_repos="https://github.com/tensorflow/models.git;benchmark" \
---python_path=models \
---gcloud_key_file_url="" \
---benchmark_methods=official.benchmark.keras_cifar_benchmark.Resnet56KerasBenchmarkSynth.benchmark_1_gpu_no_dist_strat
