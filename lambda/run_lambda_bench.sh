@@ -13,7 +13,7 @@ TIME_OUT="${6:-3000}"
 export NAME_NGC="$NAME_NGC"
 export NAME_DATASET="$NAME_DATASET"
 
-wget https://raw.githubusercontent.com/lambdal/deeplearning-benchmark/master/pytorch/setup.sh && \
+# PREPARE DATA
 chmod +x setup.sh && \
 ./setup.sh $NAME_NGC
 
@@ -24,6 +24,8 @@ docker run --gpus all --rm --shm-size=64g \
 -v $(pwd)"/scripts":/scripts \
 nvcr.io/nvidia/${NAME_NGC} \
 /bin/bash -c "cp -r /scripts/* /workspace;  ./run_prepare.sh $NAME_DATASET"
+
+# RUN BENCHMARK
 
 export NAME_NGC="$NAME_NGC"
 export NAME_CONFIG="$NAME_CONFIG"
