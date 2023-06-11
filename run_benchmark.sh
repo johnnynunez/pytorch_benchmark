@@ -15,5 +15,5 @@ docker build --build-arg CUDA_VERSION=$CUDA_VERSION -t pytorch_benchmark -f dock
 # Run the benchmark inside the container
 # docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && pytest test_bench.py --benchmark-autosave --benchmark-json ~/prueba --ignore_machine_config --cuda_only"
 
-# docker run --gpus all -it -v "${PWD}/workspace:/workspace" pytorch_benchmark /bin/bash -c "cd /workspace/benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
-docker run --gpus all -it -v "${PWD}/workspace:/workspace" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
+docker run --gpus all -it -v "${PWD}/workspace:/workspace" pytorch_benchmark /bin/bash -c "cd /workspace/benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
+# docker run --gpus all -it -v "${PWD}/workspace:/workspace" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"

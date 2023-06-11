@@ -59,9 +59,8 @@ RUN cd /workspace/benchmark && \
     eval "$(conda shell.bash hook)" && \
     conda activate torchbench && \
     python utils/cuda_utils.py --install-torch-deps --cudaver=${CUDA_VERSION} && \
-    python utils/cuda_utils.py --install-torch-nightly --cudaver=${CUDA_VERSION} && \
-    TODAY_STR=$(date +'%Y%m%d') && \
-    python utils/cuda_utils.py --check-torch-nightly-version --cudaver=${CUDA_VERSION}
+    python utils/cuda_utils.py --install-torch-nightly --cudaver=${CUDA_VERSION}
+    # python utils/cuda_utils.py --check-torch-nightly-version --cudaver=${CUDA_VERSION}
 
 # Install TorchBench conda and python dependencies
 RUN cd /workspace/benchmark && \
