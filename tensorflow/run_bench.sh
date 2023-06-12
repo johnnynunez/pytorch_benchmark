@@ -11,5 +11,5 @@ python3 /workspace/perfzero/lib/benchmark.py \
 --python_path=models \
 --gcloud_key_file_url="" \
 --python_path=models \
---benchmark_methods=official.r1.resnet.estimator_benchmark.Resnet50EstimatorBenchmarkSynth.benchmark_graph_1_gpu \
+--benchmark_methods=official.benchmark.keras_cifar_benchmark.Resnet56KerasBenchmarkReal.benchmark_1_gpu_no_dist_strat \
 --root_data_dir=/data
