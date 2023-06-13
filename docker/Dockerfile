@@ -39,8 +39,13 @@ export LIBRARY_PATH=\${CUDA_HOME}/lib64\${LIBRARY_PATHPATH:+:\${LIBRARY_PATHPATH
 # Setup Conda env and CUDA
 RUN git clone https://github.com/pytorch/benchmark /workspace/benchmark
 
+# Delete dlrm entries from the YAML file
+RUN sed -i '/- model: torchrec_dlrm/,+5d' /workspace/benchmark/userbenchmark/torch-nightly/v3-cuda-tests.yaml
+
 # delete folder filled in benchmark/torchbenchmark/models/torchrec_dlrm
 RUN rm -rf /workspace/benchmark/torchbenchmark/models/torchrec_dlrm
+
+
 
 # REMOVE model torchrec
 

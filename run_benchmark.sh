@@ -17,4 +17,5 @@ docker build --build-arg CUDA_VERSION=$CUDA_VERSION -t pytorch_benchmark -f dock
 
 # docker run --gpus all -it -v "${PWD}/workspace:/workspace" pytorch_benchmark /bin/bash -c "cd /workspace/benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
 # docker run --gpus all -it -v "${PWD}/workspace:/workspace" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
-docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
+# docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -d cuda -t train,eval"
+docker run --gpus all -it -v "${PWD}:/prueba" pytorch_benchmark /bin/bash -c "cd benchmark && eval \"\$(conda shell.bash hook)\" && conda activate torchbench && python run_benchmark.py torch-nightly -c v3-cuda-tests.yaml"
